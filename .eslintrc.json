@@ -1,3 +1,19 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "linebreak-style": 0,
+    "indent": 0,
+    "quote-props": 0,
+    "max-len": [2, 140, 2],
+    "space-before-function-paren": 0,
+    "new-cap": "warn",
+    "operator-linebreak": "off",
+    "no-undef": "error",
+    "no-const-assign": "error",
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
+    "no-async-promise-executor": "error",
+    "object-curly-spacing": "off",
+    "@next/next/no-img-element": "off"
+  }
 }
