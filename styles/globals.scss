@@ -1,0 +1,45 @@
+:root {
+  --primary: #6e42ff;
+  --bg-dark: #010101;
+  --bg-light: #222222;
+  --text-dark: #fefefe;
+  --text-light: #dee4e7;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#__next {
+  height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+p,
+pre,
+ul,
+ol,
+li {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-light);
+}
+
+ol,
+ul {
+  list-style-position: inside;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Prata', serif;
+  color: var(--text-text-dark);
+}
