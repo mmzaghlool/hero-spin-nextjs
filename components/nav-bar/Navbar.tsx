@@ -9,10 +9,6 @@ import styles from './Navbar.module.scss';
 
 const NavBar: NextComponentType = () => {
   const [expanded, setExpanded] = useState(false);
-  const router = useRouter();
-  const { pathname } = router;
-
-  const isCurrentPath = (path: string) => (pathname === path ? styles.active : undefined);
 
   return (
     <Navbar expanded={expanded} expand="md" className={styles.nav} collapseOnSelect>
