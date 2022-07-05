@@ -1,0 +1,99 @@
+@import './screenSizes.module.scss';
+@import './mixins.module.scss';
+
+.content {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  max-width: 70rem;
+
+  .cover {
+    width: 100%;
+    align-self: center;
+  }
+
+  .buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+
+    .spin {
+      border: none;
+      background: var(--primary);
+      color: var(--text-dark);
+      font-size: 3rem;
+      padding: 1rem 3rem;
+      border-radius: 20px;
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+
+      .line {
+        border: 1px solid var(--primary);
+        height: 2rem;
+        width: 1px;
+        margin: auto;
+      }
+
+      p {
+        font-size: 3rem;
+      }
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+
+      .dropdown {
+        button {
+          background-color: var(--primary);
+          border-color: var(--primary);
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .content {
+    .buttons {
+      flex-direction: column;
+      width: fit-content;
+      margin: 2rem auto;
+      max-width: 100%;
+
+      .column {
+        flex-direction: row;
+        margin: 2rem 0;
+
+        .line {
+          height: 1px;
+          width: 30%;
+          margin: auto;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $mobile) {
+  .content {
+    .buttons {
+      .hero {
+        .dropdown {
+          button {
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+@import './screenSizes.module.scss';
+
+@mixin container {
+  width: 90%;
+  max-width: $max-width;
+  margin: auto;
+  flex: 1;
+}
