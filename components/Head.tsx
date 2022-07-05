@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import NextHead from 'next/head';
 
-type P = { title: string; meta: string };
+type P = { title: string; description: string };
 
 function Head(params: P) {
-  const { title, meta } = params;
+  const { title, description } = params;
 
   return (
     <NextHead>
-      <title>{title}</title>
-      <meta name="description" content={meta} />
+      <title>{`${title} | Hero Spin`}</title>
+      <meta name="description" content={description} />
       <link rel="icon" href="/favicon.ico" />
 
       <link rel="preconnect" href="https://fonts.googleapis.com" />
