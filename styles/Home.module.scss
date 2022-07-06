@@ -10,6 +10,7 @@
   .cover {
     width: 100%;
     align-self: center;
+    margin: 0 0 2rem;
   }
 
   .buttons {
@@ -53,6 +54,8 @@
       align-items: center;
 
       .dropdown {
+        margin: 0 auto;
+
         button {
           background-color: var(--primary);
           border-color: var(--primary);
