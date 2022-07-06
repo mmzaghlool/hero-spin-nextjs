@@ -1,0 +1,63 @@
+@import './screenSizes.module.scss';
+@import './mixins.module.scss';
+
+.content {
+  @include container;
+  display: flex;
+  margin-top: 2rem;
+
+  .poster {
+    width: 18.75rem;
+    height: 27.75rem;
+  }
+
+  .data {
+    flex: 1;
+    margin-left: 3rem;
+
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .rate {
+      display: flex;
+
+      p {
+        margin: 0 0;
+        font-size: 1.5rem;
+      }
+    }
+
+    table {
+      .row {
+        td {
+          font-size: 1.25rem;
+          color: var(--text-light);
+          border-right: 1rem solid transparent;
+          border-bottom: 1rem solid transparent;
+
+          &.value {
+            font-weight: bold;
+            color: var(--primary);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .content {
+    flex-direction: column;
+
+    .poster {
+      align-self: center;
+      max-width: 100%;
+    }
+
+    .data {
+      margin: 3rem 0 0;
+    }
+  }
+}
