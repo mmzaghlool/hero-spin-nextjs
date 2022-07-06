@@ -1,11 +1,11 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import StarRatings from 'react-star-ratings';
+import { useRouter } from 'next/router';
 import { API } from '../backend/utils/constants';
+import { Movie } from '../backend/models/Movie';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
-import Movie from '../types/Movie';
 import styles from '../styles/movie.module.scss';
-import { useRouter } from 'next/router';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const hero = context.query.hero || null;
