@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import mysql2 from 'mysql2';
 import { DATABASE_HOST, DATABASE_NAME, DATABASE_PASS, DATABASE_USER } from '../utils/constants';
 
 class Database {
@@ -6,6 +7,7 @@ class Database {
   constructor() {
     this.sequelize = new Sequelize(DATABASE_NAME, DATABASE_USER, DATABASE_PASS, {
       host: DATABASE_HOST,
+      dialectModule: mysql2,
       dialect: 'mysql',
     });
 
