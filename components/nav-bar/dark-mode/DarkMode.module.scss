@@ -1,0 +1,79 @@
+@import '/styles/screenSizes.module.scss';
+@import 'https://unpkg.com/open-props/easings.min.css';
+
+.theme-toggle {
+  margin-right: 1rem;
+  --size: 2rem;
+  background: none;
+  border: none;
+  padding: 0;
+
+  inline-size: var(--size);
+  block-size: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  outline-offset: 5px;
+
+  svg {
+    transform-origin: center center;
+    inline-size: 100%;
+    block-size: 100%;
+    stroke-linecap: round;
+    color: white;
+
+    circle[class='sun'] {
+      transition: transform 0.5s var(--ease-elastic-3);
+    }
+
+    g[class='sun-beams'] {
+      transition: transform 0.5s var(--ease-elastic-4), opacity 0.5s var(--ease-3);
+    }
+
+    mask > circle {
+      transform: translateX(-7px);
+      transition: transform 0.25s var(--ease-out-5);
+
+      @supports (cx: 1) {
+        transform: translateX(0);
+        transition: cx 0.25s var(--ease-out-5);
+      }
+    }
+  }
+
+  svg[data-theme='light'] {
+    color: black;
+
+    circle[class='sun'] {
+      transform: scale(1.75);
+      transform-origin: center center;
+
+      transition-timing-function: var(--ease-3);
+      transition-duration: 0.25s;
+    }
+
+    g[class='sun-beams'] {
+      opacity: 0;
+      transform: rotateZ(-25deg);
+      transition-duration: 0.15s;
+    }
+
+    mask > circle {
+      transform: translateX(-7px);
+      transition-delay: 0.25s;
+      transition-duration: 0.5s;
+
+      @supports (cx: 1) {
+        transform: translateX(0);
+        cx: 17;
+      }
+    }
+  }
+
+  @media (hover: none) {
+    --size: 3rem;
+  }
+}

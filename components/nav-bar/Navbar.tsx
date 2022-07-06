@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Navbar } from 'react-bootstrap';
 import SVG from 'react-inlinesvg';
-
+import DarkMode from './dark-mode/DarkMode';
 import styles from './Navbar.module.scss';
 
 const NavBar: NextComponentType = () => {
@@ -13,6 +13,9 @@ const NavBar: NextComponentType = () => {
   return (
     <Navbar expanded={expanded} expand="md" className={styles.nav} collapseOnSelect>
       <div className={styles.navContainer}>
+        {/* Dark mode toggle */}
+        <DarkMode />
+
         {/* Title */}
         <div className={styles.title}>
           <Link passHref href="/">

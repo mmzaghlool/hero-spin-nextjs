@@ -58,6 +58,12 @@
         display: block;
         background-color: transparent;
         border: none;
+
+        svg {
+          path {
+            fill: var(--text-dark);
+          }
+        }
       }
 
       .navbar-collapse {

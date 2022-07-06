@@ -21,13 +21,14 @@
     .spin {
       border: none;
       background: var(--primary);
-      color: var(--text-dark);
+      color: white;
       font-size: 3rem;
       padding: 1rem 3rem;
       border-radius: 20px;
 
       p {
         font-size: 1rem;
+        color: white;
       }
     }
 
