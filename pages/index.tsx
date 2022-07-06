@@ -39,7 +39,7 @@ const Home: NextPage = () => {
 
           {/* Choose hero button */}
           <div className={styles.hero}>
-            <Dropdown className={styles.dropdown} onSelect={(key) => router.push('/spin', { query: { hero: key } })}>
+            <Dropdown className={styles.dropdown} onSelect={(key) => router.push('/spin?hero=' + key)}>
               <Dropdown.Toggle>Select your hero</Dropdown.Toggle>
 
               <Dropdown.Menu>
