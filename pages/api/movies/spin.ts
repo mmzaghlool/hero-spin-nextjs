@@ -1,3 +1,4 @@
+import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Op } from 'sequelize';
 import sequelize from '../../../backend/core/sequelize';
@@ -67,9 +68,9 @@ type Response = { Search: MovieSearch[]; totalResults: number; Response: 'True' 
  * Fetch all movies list for specific hero
  */
 async function fetchNewMovies(hero: string, page = 1) {
-  const { Search, Response }: Response = await fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&page=${page}&type=movie&s=${hero}`).then(
-    (res) => res.json(),
-  );
+  const { Search, Response }: Response = await axios({
+    url: `http://www.omdbapi.com/?apikey=${API_KEY}&page=${page}&type=movie&s=${hero}`,
+  }).then((res) => res.data);
 
   // End the loop if there is no other movies
   if (Response === 'False') return;
@@ -92,7 +93,9 @@ type FetchMovieType = Movie & { Response: 'True' | 'False' };
  * Get all movie details using imdbID
  */
 async function fetchMovieDetails(imdbID: string) {
-  const movie: FetchMovieType = await fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&i=${imdbID}`).then((res) => res.json());
+  const movie: FetchMovieType = await axios({
+    url: `http://www.omdbapi.com/?apikey=${API_KEY}&i=${imdbID}`,
+  }).then((res) => res.data);
 
   if (movie.Response === 'False') return;
 
