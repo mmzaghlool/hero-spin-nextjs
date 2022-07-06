@@ -28,8 +28,9 @@ const NavBar: NextComponentType = () => {
         <Navbar.Collapse id="basic-navbar-nav" className={styles['navbar-collapse']}>
           <ul>
             <NavLink path="/">Home</NavLink>
-            <NavLink path="/history">History</NavLink>
-            <NavLink path="/settings">Settings</NavLink>
+            <NavLink path="/spin">Spin Now</NavLink>
+            {/* <NavLink path="/history">History</NavLink> */}
+            {/* <NavLink path="/settings">Settings</NavLink> */}
           </ul>
         </Navbar.Collapse>
       </div>
