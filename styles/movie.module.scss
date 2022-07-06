@@ -3,7 +3,7 @@
 
 .content {
   @include container;
-  margin-top: 2rem;
+  margin: 2rem auto;
 
   .movie {
     display: flex;
@@ -51,16 +51,16 @@
 
 @media screen and (max-width: $tablet) {
   .content {
-    flex-direction: column;
-
     .movie {
+      flex-direction: column;
+
       .poster {
         align-self: center;
         max-width: 100%;
       }
 
       .data {
-        margin: 3rem 0 0;
+        margin: 3rem auto 0;
       }
     }
   }
