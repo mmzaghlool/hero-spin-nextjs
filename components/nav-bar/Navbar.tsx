@@ -6,6 +6,7 @@ import { Navbar } from 'react-bootstrap';
 import SVG from 'react-inlinesvg';
 import DarkMode from './dark-mode/DarkMode';
 import styles from './Navbar.module.scss';
+import Button from '../forms/Button';
 
 const NavBar: NextComponentType = () => {
   const [expanded, setExpanded] = useState(false);
@@ -32,9 +33,11 @@ const NavBar: NextComponentType = () => {
           <ul>
             <NavLink path="/">Home</NavLink>
             <NavLink path="/spin">Spin Now</NavLink>
-            {/* <NavLink path="/history">History</NavLink> */}
-            {/* <NavLink path="/settings">Settings</NavLink> */}
           </ul>
+
+          <Link href="login">
+            <Button className={styles.button}>Login</Button>
+          </Link>
         </Navbar.Collapse>
       </div>
     </Navbar>

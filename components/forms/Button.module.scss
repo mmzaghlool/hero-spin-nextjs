@@ -6,17 +6,18 @@
   margin: 1rem 0 1rem auto;
   display: block;
 
-  &:hover {
-    background-color: transparent;
-    color: var(--primary);
-  }
-
   &:active,
   &:focus {
     background-color: var(--primary);
     border-color: var(--primary);
+    color: white;
   }
 
+  &:hover {
+    background-color: transparent;
+    color: var(--primary);
+  }
+  
   &:disabled {
     background-color: grey;
     border-color: grey;
