@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import type { NextComponentType } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -7,8 +7,10 @@ import SVG from 'react-inlinesvg';
 import DarkMode from './dark-mode/DarkMode';
 import styles from './Navbar.module.scss';
 import Button from '../forms/Button';
+import { UserContext } from '../../configs/UserContext';
 
 const NavBar: NextComponentType = () => {
+  const { user, setConfig } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -35,9 +37,15 @@ const NavBar: NextComponentType = () => {
             <NavLink path="/spin">Spin Now</NavLink>
           </ul>
 
-          <Link href="login">
-            <Button className={styles.button}>Login</Button>
-          </Link>
+          {user ? (
+            <Button className={styles.logout} onClick={() => setConfig({})}>
+              Logout
+            </Button>
+          ) : (
+            <Link href="/login">
+              <Button>Login</Button>
+            </Link>
+          )}
         </Navbar.Collapse>
       </div>
     </Navbar>

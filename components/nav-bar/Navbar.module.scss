@@ -44,9 +44,19 @@
         }
       }
 
-      .button {
+      button {
         margin: 0;
         margin-left: 1.5rem;
+
+        &.logout {
+          background-color: var(--bs-danger);
+          border-color: var(--bs-danger);
+
+          &:hover {
+            color: var(--bs-danger);
+            background-color: transparent;
+          }
+        }
       }
     }
   }
@@ -94,7 +104,7 @@
           }
         }
 
-        .button {
+        button {
           display: block;
           width: 33%;
           min-width: fit-content;
