@@ -1,5 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { API } from '../backend/utils/constants';
+import { UserContext } from '../configs/UserContext';
 
 // Default Headers containing headers to be set by default to any request unless it overwritten
 const defaultHeaders = { 'Content-Type': 'application/json' };
@@ -21,6 +22,7 @@ type useFetchType = [
 ];
 
 function useFetch(): useFetchType {
+  const { accessToken } = useContext(UserContext);
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<objectStringsType>();
@@ -31,9 +33,13 @@ function useFetch(): useFetchType {
     setData(undefined);
     setError(undefined);
 
-    const finalUrl = `${API}${endPoint}`;
-    const finalHeaders = { ...defaultHeaders, ...headers };
+    const finalUrl = `${API}/api/${endPoint}`;
+    const finalHeaders: Record<string, string> = { ...defaultHeaders, ...headers };
     const stringifyBody = body ? JSON.stringify(body) : undefined;
+
+    if (accessToken) {
+      finalHeaders['auth-token'] = accessToken;
+    }
 
     return new Promise((resolve, reject) => {
       fetch(finalUrl, { method, headers: finalHeaders, body: stringifyBody })
@@ -49,7 +55,7 @@ function useFetch(): useFetchType {
           setLoading(false);
         });
     });
-  }, []);
+  }, [accessToken]);
 
   return [loading, execute, data, error];
 }

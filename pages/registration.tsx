@@ -1,20 +1,34 @@
 import Link from 'next/link';
-import { ChangeEvent, FormEventHandler, useState } from 'react';
+import { useRouter } from 'next/router';
+import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from '../components/forms/Button';
 import FormInput from '../components/forms/FormInput';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
+import TokenStorage from '../configs/TokenLocalStorage';
+import { UserContext } from '../configs/UserContext';
 import useFetch from '../hooks/useFetch';
 import styles from '../styles/registration.module.scss';
+import RegistrationCodes from '../types/RegistrationCodes';
 import validateRegistration from '../validations/registration';
 
 const message = 'Register new account to get better results, history, and feedback';
 
 function Registration() {
+  const { setConfig, user } = useContext(UserContext);
+  const router = useRouter();
+
   const [loading, execute] = useFetch();
   const [inputs, setInputs] = useState({ name: '', email: '', password: '' });
   const [errors, setErrors] = useState({ name: '', email: '', password: '' });
+
+  // If user already logged in redirect to home
+  useEffect(() => {
+    if (user) {
+      router.replace('/');
+    }
+  }, [router, user]);
 
   const submit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -29,12 +43,21 @@ function Registration() {
 
     execute({
       method: 'POST',
-      endPoint: '/users/registration',
+      endPoint: 'users/registration',
       body: inputs,
     }).then((res) => {
       if (res.success === false) {
+        if (res.code === RegistrationCodes.EMAIL_USED) {
+          setErrors((p) => ({ ...p, email: 'Email is already used' }));
+        }
         return;
       }
+
+      // Login user
+      const { accessToken, refreshToken, user } = res.data;
+      setConfig({ accessToken, user });
+      TokenStorage.setToken(refreshToken);
+      router.replace('/');
     });
   };
 

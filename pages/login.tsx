@@ -1,26 +1,42 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { FormEventHandler, useContext, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from '../components/forms/Button';
 import FormInput from '../components/forms/FormInput';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
+import TokenStorage from '../configs/TokenLocalStorage';
+import { UserContext } from '../configs/UserContext';
 import useFetch from '../hooks/useFetch';
 import styles from '../styles/login.module.scss';
 
 const message = 'Login to your account to get better results, history, and feedback';
 
 function Login() {
+  const { setConfig, user } = useContext(UserContext);
+  const router = useRouter();
+
   const [loading, execute] = useFetch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const submit = async () => {
+  // If user already logged in redirect to home
+  useEffect(() => {
+    if (user) {
+      router.replace('/');
+    }
+  }, [router, user]);
+
+  const submit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    if (loading) return;
+
     setError('');
     execute({
       method: 'POST',
-      endPoint: '/users/login',
+      endPoint: 'users/login',
       body: { email, password },
     }).then((res) => {
       // Wrong Email or password
@@ -28,6 +44,11 @@ function Login() {
         setError('Wrong email or password');
         return;
       }
+
+      const { accessToken, refreshToken, user } = res.data;
+      setConfig({ accessToken, user });
+      TokenStorage.setToken(refreshToken);
+      router.replace('/');
     });
   };
 
@@ -40,12 +61,12 @@ function Login() {
         <h1>Login</h1>
         <p>{message}</p>
 
-        <Form className={styles.form}>
+        <Form className={styles.form} onSubmit={submit}>
           <FormInput onChange={(e) => setEmail(e.target.value)} value={email} title="Email" />
           <FormInput onChange={(e) => setPassword(e.target.value)} value={password} title="Password" type="password" />
           {error && <p>{error}</p>}
 
-          <Button className={styles.submit} onClick={submit} disabled={loading}>
+          <Button className={styles.submit} type={'submit'} disabled={loading}>
             Login
           </Button>
         </Form>
