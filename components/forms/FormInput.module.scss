@@ -1,0 +1,20 @@
+.input {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  font-size: 1.25rem;
+
+  label {
+    align-self: flex-start;
+    color: var(--text-dark);
+
+    &.required::after {
+      content: '*';
+      color: red;
+    }
+  }
+
+  textarea {
+    min-height: 8rem;
+  }
+}

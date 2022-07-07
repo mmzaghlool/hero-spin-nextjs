@@ -1,0 +1,24 @@
+.button {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  min-width: 5rem;
+  padding: 0.3rem 2rem;
+  margin: 1rem 0 1rem auto;
+  display: block;
+
+  &:hover {
+    background-color: transparent;
+    color: var(--primary);
+  }
+
+  &:active,
+  &:focus {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  &:disabled {
+    background-color: grey;
+    border-color: grey;
+  }
+}
