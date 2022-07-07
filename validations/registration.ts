@@ -9,7 +9,6 @@ type registrationType = {
 
 export default function validateRegistration(inputs: registrationType) {
   const { name, email, password } = inputs;
-  console.log(messages);
 
   const errors = {
     name: validateString(name, messages.name),

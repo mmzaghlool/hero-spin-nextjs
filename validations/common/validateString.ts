@@ -21,9 +21,6 @@ export function validateString(value: string, validation: validateStringType) {
   } else if (value.length > max) {
     err = maxErr;
   }
-  console.log(customPattern, typeof customPattern !== 'undefined', typeof customPattern !== 'undefined' && !customPattern.test(value));
-
-  console.log(value, validation, err);
 
   return err;
 }
