@@ -8,10 +8,16 @@ import DarkMode from './dark-mode/DarkMode';
 import styles from './Navbar.module.scss';
 import Button from '../forms/Button';
 import { UserContext } from '../../configs/UserContext';
+import TokenStorage from '../../configs/TokenLocalStorage';
 
 const NavBar: NextComponentType = () => {
   const { user, setConfig } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
+
+  const logout = () => {
+    TokenStorage.removeToken();
+    setConfig({});
+  };
 
   return (
     <Navbar expanded={expanded} expand="md" className={styles.nav} collapseOnSelect>
@@ -38,12 +44,12 @@ const NavBar: NextComponentType = () => {
           </ul>
 
           {user ? (
-            <Button className={styles.logout} onClick={() => setConfig({})}>
+            <Button className={styles.logout} onClick={logout}>
               Logout
             </Button>
           ) : (
             <Link href="/login">
-              <Button>Login</Button>
+              <Button disabled={user === null}>Login</Button>
             </Link>
           )}
         </Navbar.Collapse>
