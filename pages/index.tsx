@@ -1,13 +1,39 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
 import styles from '../styles/Home.module.scss';
 import { marvelHeros } from '../types/MarvelHeros';
 
+// eslint-disable-next-line no-undef
+let interval: NodeJS.Timer;
+
 const Home: NextPage = () => {
   const router = useRouter();
+
+  // Spin button animation
+  useEffect(() => {
+    const button = document.getElementById('spin-button');
+    let op = 0.2;
+    let increase = true;
+
+    if (!button) return;
+
+    clearInterval(interval);
+    interval = setInterval(() => {
+      if (increase) {
+        op += 0.1;
+        if (op > 1) increase = false;
+      } else {
+        op -= 0.1;
+        if (op < 0.2) increase = true;
+      }
+
+      button.style.opacity = op + '';
+    }, 50);
+  }, []);
 
   return (
     <div className="page-container">
@@ -25,7 +51,7 @@ const Home: NextPage = () => {
         {/* Buttons */}
         <div className={styles.buttons}>
           {/* Spin button */}
-          <button className={styles.spin} onClick={() => router.push('/spin')}>
+          <button className={styles.spin} id="spin-button" onClick={() => router.push('/spin')}>
             Spin
             <p>find random hero movie</p>
           </button>
