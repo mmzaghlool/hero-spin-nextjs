@@ -6,6 +6,6 @@ export const marvelHeros = [
   'Avengers',
   'Ant-Man',
   'Doctor Strange',
-  'Spider Man',
+  'Spider-Man',
   'Captain Marvel',
 ];

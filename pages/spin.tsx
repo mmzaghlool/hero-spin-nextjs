@@ -33,12 +33,28 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
 
 type P = {
   hero: string | null;
-  movie: Movie;
+  movie: Movie | null;
 };
 
 const Spin: NextPage<P> = ({ hero, movie }) => {
   const { user } = useContext(UserContext);
   const router = useRouter();
+
+  if (movie === null) {
+    return (
+      <div className="page-container">
+        <Head title="Spin" description="Spin to get random movie suggestion across marvel heros !!!" />
+
+        <NavBar />
+
+        <div className={styles.content}>
+          <h1>Sorry we did not found a movie you did not watch</h1>
+          <p>You watched all our movies please try selecting {hero ? 'other hero' : 'a specific hero'}</p>
+        </div>
+      </div>
+    );
+  }
+
   const { Poster, Title, Actors, Awards, BoxOffice, Director, Genre, Plot, Rated, Released, Runtime, imdbRating, imdbVotes, Writer } =
     movie;
 
