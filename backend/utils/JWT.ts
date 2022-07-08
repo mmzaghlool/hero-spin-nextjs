@@ -50,4 +50,17 @@ export default class JWT {
       throw err;
     }
   }
+
+  static async checkUser(uid: string, authorization?: string) {
+    try {
+      if (!authorization) {
+        return false;
+      }
+      const decoded = JWT.verifyJWT(authorization, 'ACCESS');
+
+      return decoded.uid === uid;
+    } catch (error) {
+      return false;
+    }
+  }
 }
