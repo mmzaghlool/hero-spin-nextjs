@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import type { GetServerSideProps, NextPage } from 'next';
 import StarRatings from 'react-star-ratings';
 import { useRouter } from 'next/router';
@@ -6,6 +7,8 @@ import { Movie } from '../backend/models/Movie';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
 import styles from '../styles/movie.module.scss';
+import { UserContext } from '../configs/UserContext';
+import Survey from '../components/spen/survey/Survey';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const hero = context.query.hero || null;
@@ -28,6 +31,7 @@ type P = {
 };
 
 const Spin: NextPage<P> = ({ hero, movie }) => {
+  const { user } = useContext(UserContext);
   const router = useRouter();
   const { Poster, Title, Actors, Awards, BoxOffice, Director, Genre, Plot, Rated, Released, Runtime, imdbRating, imdbVotes, Writer } =
     movie;
@@ -72,14 +76,19 @@ const Spin: NextPage<P> = ({ hero, movie }) => {
           </div>
         </div>
 
-        {/* Re-Spin */}
-        <h2>Did not like the result?</h2>
-        <p>
-          Whether you did not like the result or already watched that movie just{' '}
-          <a href="#" onClick={() => router.reload()}>
-            re-spin to get a new result
-          </a>
-        </p>
+        {/* Render survey */}
+        {user === undefined && (
+          <>
+            <h2>Did not like the result?</h2>
+            <p>
+              Whether you did not like the result or already watched that movie just{' '}
+              <a href="#" onClick={() => router.reload()}>
+                re-spin to get a new result
+              </a>
+            </p>
+          </>
+        )}
+        {!!user && <Survey imdbID={movie.imdbID} />}
       </div>
     </div>
   );

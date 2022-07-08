@@ -1,0 +1,29 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+
+  button {
+    margin: 0 1rem 0 0;
+
+    &.danger {
+      background-color: var(--bs-danger);
+      border-color: var(--bs-danger);
+
+      &:hover {
+        color: var(--bs-danger);
+        background-color: transparent;
+      }
+    }
+
+    &.third {
+      background-color: transparent;
+      border-color: var(--primary);
+      color: var(--primary);
+
+      &:hover {
+        background-color: var(--primary);
+        color: white;
+      }
+    }
+  }
+}
