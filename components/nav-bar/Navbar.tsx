@@ -44,6 +44,7 @@ const NavBar: NextComponentType = () => {
           <ul>
             <NavLink path="/">Home</NavLink>
             <NavLink path="/spin">Spin Now</NavLink>
+            <NavLink path="/history">History</NavLink>
           </ul>
 
           {user ? (
