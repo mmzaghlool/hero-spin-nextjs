@@ -1,3 +1,4 @@
+import { setCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from 'react';
@@ -57,6 +58,8 @@ function Registration() {
       const { accessToken, refreshToken, user } = res.data;
       setConfig({ accessToken, user });
       TokenStorage.setToken(refreshToken);
+      setCookie('ACCESS', accessToken, { maxAge: 60 * 12 });
+      setCookie('UID', user.uid, { maxAge: 60 * 12 });
       router.replace('/');
     });
   };

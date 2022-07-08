@@ -1,10 +1,10 @@
-import '../styles/globals.scss';
+import { useContext, useEffect } from 'react';
 import type { AppProps } from 'next/app';
+import { setCookie } from 'cookies-next';
 import UserProvider, { UserContext } from '../configs/UserContext';
 import TokenStorage from '../configs/TokenLocalStorage';
-import { useContext, useEffect } from 'react';
-import useFetch from '../hooks/useFetch';
 import { API } from '../backend/utils/constants';
+import '../styles/globals.scss';
 
 function Index(props: AppProps) {
   return (
@@ -22,8 +22,6 @@ function App({ Component, pageProps }: AppProps) {
    */
   useEffect(() => {
     const refreshToken = TokenStorage.getToken();
-
-    console.log('refreshToken', refreshToken);
 
     if (refreshToken !== null) {
       fetch(`${API}/api/users/refresh`, {
@@ -43,6 +41,8 @@ function App({ Component, pageProps }: AppProps) {
           const { accessToken, refreshToken, user } = res.data;
           setConfig({ accessToken, user });
           TokenStorage.setToken(refreshToken);
+          setCookie('ACCESS', accessToken, { maxAge: 60 * 12 });
+          setCookie('UID', user.uid, { maxAge: 60 * 12 });
         });
     } else {
       setConfig({});

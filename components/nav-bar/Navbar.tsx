@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Navbar } from 'react-bootstrap';
 import SVG from 'react-inlinesvg';
+import { removeCookies } from 'cookies-next';
 import DarkMode from './dark-mode/DarkMode';
 import styles from './Navbar.module.scss';
 import Button from '../forms/Button';
@@ -17,6 +18,8 @@ const NavBar: NextComponentType = () => {
   const logout = () => {
     TokenStorage.removeToken();
     setConfig({});
+    removeCookies('ACCESS');
+    removeCookies('UID');
   };
 
   return (

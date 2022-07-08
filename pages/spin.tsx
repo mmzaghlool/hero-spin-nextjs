@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import type { GetServerSideProps, NextPage } from 'next';
 import StarRatings from 'react-star-ratings';
 import { useRouter } from 'next/router';
+import { getCookie } from 'cookies-next';
 import { API } from '../backend/utils/constants';
 import { Movie } from '../backend/models/Movie';
 import Head from '../components/Head';
@@ -10,15 +11,20 @@ import styles from '../styles/movie.module.scss';
 import { UserContext } from '../configs/UserContext';
 import Survey from '../components/spen/survey/Survey';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const hero = context.query.hero || null;
+export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
+  const hero = query.hero || null;
+  const uid = getCookie('UID', { req, res });
+  const authorization = getCookie('ACCESS', { req, res }) as string;
 
-  let link = `${API}/api/movies/spin`;
+  let link = `${API}/api/movies/spin?`;
   if (hero) {
-    link = link.concat(`?hero=${hero}`);
+    link = link.concat(`hero=${hero}&`);
+  }
+  if (uid) {
+    link = link.concat(`uid=${uid}&`);
   }
 
-  const movie = await fetch(link)
+  const movie = await fetch(link, { headers: authorization ? { authorization } : {} })
     .then((res) => res.json())
     .then((res) => res.movie);
 
