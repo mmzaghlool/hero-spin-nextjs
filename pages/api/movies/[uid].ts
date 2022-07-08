@@ -14,8 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const { uid } = req.query;
     const { authorization } = req.headers;
 
-    console.log(uid, authorization);
-
     if (typeof uid === 'string') {
       const valid = JWT.checkUser(uid, authorization);
 

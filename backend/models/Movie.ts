@@ -1,6 +1,8 @@
 /* eslint-disable new-cap */
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../core/sequelize';
+import UserModel from './Users';
+import UserMovieModel from './UsersMovies';
 
 export interface Movie {
   imdbID: string;
@@ -42,5 +44,8 @@ MovieModel.init(
   },
   { sequelize, modelName: 'movies', createdAt: false, updatedAt: false },
 );
+
+MovieModel.belongsToMany(UserModel, { through: UserMovieModel });
+UserModel.belongsToMany(MovieModel, { through: UserMovieModel });
 
 export default MovieModel;
