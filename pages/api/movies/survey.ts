@@ -10,10 +10,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   if (req.method === 'POST') {
     const { uid, imdbID, status } = req.body;
     const { authorization } = req.headers;
-    const valid = JWT.checkUser(uid, authorization);
 
-    if (!valid || !uid || status === undefined) {
+    if (!uid || status === undefined) {
       return res.status(400).json({ success: false });
+    }
+
+    const valid = JWT.checkUser(uid, authorization);
+    if (!valid) {
+      return res.status(401).json({ success: false });
     }
 
     await UserMovieModel.bulkCreate([{ uid, imdbID, status }], { updateOnDuplicate: ['status'] }).then((results) => results[0]);
