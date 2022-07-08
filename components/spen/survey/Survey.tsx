@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../../configs/UserContext';
+import useFetch from '../../../hooks/useFetch';
 import Button from '../../forms/Button';
 import styles from './Survey.module.scss';
 
@@ -10,23 +11,32 @@ const Survey = ({ imdbID }: P) => {
   const { user } = useContext(UserContext);
   const router = useRouter();
 
+  const [loading, execute] = useFetch();
+
   const [feedback, setFeedback] = useState<boolean>(false);
   const [blackList, setBlackList] = useState<boolean>(false);
 
   const addToHistory = () => {
     setFeedback(true);
-    // TODO: add to history
+    execute({ endPoint: 'movies/survey', method: 'POST', body: { uid: user?.uid, imdbID, status: 1 } });
   };
 
   const wontWatch = () => {
     setBlackList(true);
-    // TODO: add to blacklist
+    execute({ endPoint: 'movies/survey', method: 'POST', body: { uid: user?.uid, imdbID, status: 0 } });
   };
 
-  const addBlackListReason = (reason: string) => {
+  const addBlackListReason = (notMarvel: boolean) => {
     setFeedback(true);
-    // TODO: update blacklist reason
+
+    if (notMarvel) {
+      execute({ endPoint: 'movies/survey', method: 'POST', body: { uid: user?.uid, imdbID, status: -1 } });
+    }
   };
+
+  if (loading) {
+    return <p>Loading ... please wait</p>;
+  }
 
   // Render feedback message
   if (feedback) {
@@ -48,10 +58,10 @@ const Survey = ({ imdbID }: P) => {
 
         <div className={styles.row}>
           <Button onClick={addToHistory}>Already Watched</Button>
-          <Button className={styles.danger} onClick={() => addBlackListReason('Not Marvel Movie !')}>
+          <Button className={styles.danger} onClick={() => addBlackListReason(true)}>
             Not Marvel Movie !
           </Button>
-          <Button className={styles.third} onClick={() => addBlackListReason("I Don't like it")}>
+          <Button className={styles.third} onClick={() => addBlackListReason(false)}>
             I Don&apos;t like it
           </Button>
         </div>
@@ -69,7 +79,9 @@ const Survey = ({ imdbID }: P) => {
         <Button className={styles.danger} onClick={wontWatch}>
           No
         </Button>
-        <Button className={styles.third}>Maybe later</Button>
+        <Button className={styles.third} onClick={() => setFeedback(true)}>
+          Maybe later
+        </Button>
       </div>
     </>
   );
