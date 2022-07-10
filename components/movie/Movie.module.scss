@@ -1,5 +1,5 @@
-@import './screenSizes.module.scss';
-@import './mixins.module.scss';
+@import '../../styles/screenSizes.module.scss';
+@import '../../styles/mixins.module.scss';
 
 .content {
   @include container;

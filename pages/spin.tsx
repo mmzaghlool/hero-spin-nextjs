@@ -1,15 +1,15 @@
 import { useContext } from 'react';
 import type { GetServerSideProps, NextPage } from 'next';
-import StarRatings from 'react-star-ratings';
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 import { API } from '../backend/utils/constants';
 import { Movie } from '../backend/models/Movie';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
-import styles from '../styles/movie.module.scss';
 import { UserContext } from '../configs/UserContext';
 import Survey from '../components/spen/survey/Survey';
+import RenderMovie from '../components/movie/Movie';
+import styles from '../components/movie/movie.module.scss';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
   const hero = query.hero || null;
@@ -55,49 +55,9 @@ const Spin: NextPage<P> = ({ hero, movie }) => {
     );
   }
 
-  const { Poster, Title, Actors, Awards, BoxOffice, Director, Genre, Plot, Rated, Released, Runtime, imdbRating, imdbVotes, Writer } =
-    movie;
-
   return (
-    <div className="page-container">
-      <Head title="Spin" description="Spin to get random movie suggestion across marvel heros !!!" />
-
-      <NavBar />
-
-      <div className={styles.content}>
-        <div className={styles.movie}>
-          <img className={styles.poster} src={Poster} alt="cover image" />
-
-          <div className={styles.data}>
-            {/* Heading */}
-            <h1>{Title}</h1>
-
-            {/* Rating */}
-            <div className={styles.rate}>
-              <p>{imdbRating}</p>
-              <StarRatings starRatedColor="#FFD500" rating={1} starDimension="2rem" numberOfStars={1} name={'rate'} />
-              <p>{`(${imdbVotes} Ratings)`}</p>
-            </div>
-
-            {/* Description */}
-            <p>{Plot}</p>
-
-            <table>
-              <tbody>
-                <Row title="Director" value={Director} />
-                <Row title="Writers" value={Writer} />
-                <Row title="Actors" value={Actors} />
-                <Row title="Awards" value={Awards} />
-                <Row title="Genres" value={Genre} />
-                <Row title="Release date" value={Released} />
-                <Row title="Box office" value={BoxOffice} />
-                <Row title="Duration" value={Runtime} />
-                <Row title="Rate" value={Rated} />
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+    <RenderMovie title="Spin" description="Spin to get random movie suggestion across marvel heros !!!" movie={movie}>
+      <>
         {/* Render survey */}
         {user === undefined && (
           <>
@@ -111,21 +71,9 @@ const Spin: NextPage<P> = ({ hero, movie }) => {
           </>
         )}
         {!!user && <Survey imdbID={movie.imdbID} />}
-      </div>
-    </div>
+      </>
+    </RenderMovie>
   );
 };
 
 export default Spin;
-
-type RowProps = {
-  title: string;
-  value: string;
-};
-
-const Row = ({ title, value }: RowProps) => (
-  <tr className={styles.row}>
-    <td>{title} </td>
-    <td className={styles.value}>{value}</td>
-  </tr>
-);
