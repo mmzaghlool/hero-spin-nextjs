@@ -1,14 +1,16 @@
 # Hero Spin
 
+Sometimes, having too many options can be overwhelming. We’ve all been there. Restaurants with long menus, a piece of clothing in many different colors, and of course, a quiet evening in front of the TV, not knowing what to watch. Especially with the last one, sometimes it would be great if someone could make that call for us. And since most of us, are also playing with our phone, while in front of the TV (if not also controlling the TV), what could be better than an app, that randomly picks a show for you.
+
 (React + NextJS + TS) Full-stack project to recommend a movie from marvel movies to watch using IMDB’s open movie API and local MySQL database for customizing the user experience and cashing the results.
 
 ## Features
 
-### Anonymous user
+### Anonymous User
 
 All/Any users can request spin request which gets random movie from marvel movies stored in OMDb API OR requests a random movie of a specific hero character.
 
-### Registered user
+### Registered User
 
 Registered users has some unique features like storing history, and blocked movies.
 
@@ -21,6 +23,26 @@ Any movie that is marked as viewed or blocked will never be suggested again for 
 This app contains light/dark mode switch feature, which can be found in the top left corner of the page "most left of the navbar".
 
 The initial value is determined from the system preferences found in the first website open then the desired configuration is stored in the local storage.
+
+### SEO Enabled
+
+This website is SEO Enabled with the following lighthouse results ... Which can be much better with production ready servers, and better meta description texts.
+
+#### Home Page
+
+![Home SEO](https://hero-spin.mostafa-mahmoud.com/docs/home-seo.png)
+
+#### Spin Page
+
+![Spin SEO](https://hero-spin.mostafa-mahmoud.com/docs/spin-seo.png)
+
+#### History Page
+
+![History SEO](https://hero-spin.mostafa-mahmoud.com/docs/history-seo.png)
+
+#### Movie Page
+
+![Movie SEO](https://hero-spin.mostafa-mahmoud.com/docs/movie-seo.png)
 
 ## Mechanism
 
@@ -71,4 +93,4 @@ Deployed on vercel here `https://hero-spin.mostafa-mahmoud.com/`
 
 ## Suggested future updates
 
-1. Filtering the movies that is marked as `Not a marvel movie` based on the watched/blocked ratio with specific number of feedback
+1. Filtering the movies that is marked as `Not a marvel movie` based on the watched/blocked ratio with specific number of feedbacks.
