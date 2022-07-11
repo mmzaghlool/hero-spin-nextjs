@@ -14,8 +14,8 @@ import styles from '../components/movie/Movie.module.scss';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
   const hero = query.hero || null;
-  const uid = UIDCookie.getUid();
-  const authorization = AccessCookie.getToken();
+  const uid = UIDCookie.getUid(req, res);
+  const authorization = AccessCookie.getToken(req, res);
 
   let link = `${API}/api/movies/spin?`;
   if (hero) {

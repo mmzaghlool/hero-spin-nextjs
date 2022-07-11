@@ -1,5 +1,6 @@
 export const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || '';
 export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || '';
+export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '';
 export const DATABASE_NAME = process.env.DATABASE_NAME || '';
 export const DATABASE_HOST = process.env.DATABASE_HOST || '';
 export const DATABASE_USER = process.env.DATABASE_USER || '';

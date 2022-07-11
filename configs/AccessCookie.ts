@@ -5,7 +5,13 @@ class AccessCookie {
   static KEY = 'ACCESS';
 
   static getToken(req?: any, res?: any): string | null {
-    return AES.decrypt((getCookie(AccessCookie.KEY, { req, res }) as string | null) || undefined) || null;
+    const accessToken = getCookie(AccessCookie.KEY, { req, res });
+
+    if (typeof accessToken !== 'string') {
+      return null;
+    }
+
+    return AES.decrypt(accessToken) || null;
   }
 
   static setToken(accessToken: string) {

@@ -11,8 +11,8 @@ import AccessCookie from '../configs/AccessCookie';
 import UIDCookie from '../configs/UIDCookie';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
-  const uid = UIDCookie.getUid();
-  const authorization = AccessCookie.getToken();
+  const uid = UIDCookie.getUid(req, res);
+  const authorization = AccessCookie.getToken(req, res);
 
   if (!uid) {
     return { props: { movies: null } };
@@ -30,7 +30,7 @@ type P = { movies: MovieHead[] | null };
 const History: NextPage<P> = ({ movies }) => {
   const { user } = useContext(UserContext);
 
-  if (!movies) {
+  if (!user || !movies) {
     return (
       <div className="page-container">
         <Head title="History" description="View your watch history" />
