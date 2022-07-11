@@ -3,7 +3,7 @@ import StarRatings from 'react-star-ratings';
 import { Movie } from '../../backend/models/Movie';
 import Head from '../Head';
 import NavBar from '../nav-bar/Navbar';
-import styles from './movie.module.scss';
+import styles from './Movie.module.scss';
 
 type P = {
   movie: Movie;
