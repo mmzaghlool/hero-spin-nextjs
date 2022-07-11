@@ -8,9 +8,9 @@ import NavBar from '../components/nav-bar/Navbar';
 import { UserContext } from '../configs/UserContext';
 import Survey from '../components/spen/survey/Survey';
 import RenderMovie from '../components/movie/Movie';
-import styles from '../components/movie/movie.module.scss';
 import AccessCookie from '../configs/AccessCookie';
 import UIDCookie from '../configs/UIDCookie';
+import styles from '../components/movie/Movie.module.scss';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
   const hero = query.hero || null;
