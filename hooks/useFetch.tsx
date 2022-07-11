@@ -37,7 +37,7 @@ function useFetch(): useFetchType {
     const stringifyBody = body ? JSON.stringify(body) : undefined;
 
     const authorization = AccessCookie.getToken();
-    if (authorization) {
+    if (typeof authorization === 'string') {
       finalHeaders.authorization = authorization;
     }
 
