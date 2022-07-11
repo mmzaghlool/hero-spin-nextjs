@@ -1,10 +1,11 @@
 import { useContext, useEffect } from 'react';
 import type { AppProps } from 'next/app';
-import { setCookie } from 'cookies-next';
 import UserProvider, { UserContext } from '../configs/UserContext';
 import TokenStorage from '../configs/TokenLocalStorage';
 import { API } from '../backend/utils/constants';
 import '../styles/globals.scss';
+import AccessCookie from '../configs/AccessCookie';
+import UIDCookie from '../configs/UIDCookie';
 
 function Index(props: AppProps) {
   return (
@@ -15,7 +16,7 @@ function Index(props: AppProps) {
 }
 
 function App({ Component, pageProps }: AppProps) {
-  const { setConfig } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   /**
    * if there is user logged in update its tokens and data
@@ -39,15 +40,15 @@ function App({ Component, pageProps }: AppProps) {
           }
 
           const { accessToken, refreshToken, user } = res.data;
-          setConfig({ accessToken, user });
+          setUser(user);
           TokenStorage.setToken(refreshToken);
-          setCookie('ACCESS', accessToken, { maxAge: 60 * 12 });
-          setCookie('UID', user.uid, { maxAge: 60 * 12 });
+          AccessCookie.setToken(accessToken);
+          UIDCookie.setUid(user.uid);
         });
     } else {
-      setConfig({});
+      setUser(undefined);
     }
-  }, [setConfig]);
+  }, [setUser]);
 
   return <Component {...pageProps} />;
 }

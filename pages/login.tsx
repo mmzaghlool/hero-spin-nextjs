@@ -1,4 +1,3 @@
-import { setCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormEventHandler, useContext, useEffect, useState } from 'react';
@@ -7,7 +6,9 @@ import Button from '../components/forms/Button';
 import FormInput from '../components/forms/FormInput';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
+import AccessCookie from '../configs/AccessCookie';
 import TokenStorage from '../configs/TokenLocalStorage';
+import UIDCookie from '../configs/UIDCookie';
 import { UserContext } from '../configs/UserContext';
 import useFetch from '../hooks/useFetch';
 import styles from '../styles/login.module.scss';
@@ -15,7 +16,7 @@ import styles from '../styles/login.module.scss';
 const message = 'Login to your account to get better results, history, and feedback';
 
 function Login() {
-  const { setConfig, user } = useContext(UserContext);
+  const { setUser, user } = useContext(UserContext);
   const router = useRouter();
 
   const [loading, execute] = useFetch();
@@ -47,10 +48,10 @@ function Login() {
       }
 
       const { accessToken, refreshToken, user } = res.data;
-      setConfig({ accessToken, user });
+      setUser(user);
       TokenStorage.setToken(refreshToken);
-      setCookie('ACCESS', accessToken, { maxAge: 60 * 12 });
-      setCookie('UID', user.uid, { maxAge: 60 * 12 });
+      AccessCookie.setToken(accessToken);
+      UIDCookie.setUid(user.uid);
       router.replace('/');
     });
   };

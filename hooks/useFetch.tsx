@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from 'react';
 import { API } from '../backend/utils/constants';
-import { UserContext } from '../configs/UserContext';
+import AccessCookie from '../configs/AccessCookie';
 
 // Default Headers containing headers to be set by default to any request unless it overwritten
 const defaultHeaders = { 'Content-Type': 'application/json' };
@@ -22,43 +22,40 @@ type useFetchType = [
 ];
 
 function useFetch(): useFetchType {
-  const { accessToken } = useContext(UserContext);
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<objectStringsType>();
 
-  const execute = useCallback(
-    async (data: executeType): Promise<any> => {
-      const { endPoint, body, headers, method = 'GET' } = data;
-      setLoading(true);
-      setData(undefined);
-      setError(undefined);
+  const execute = useCallback(async (data: executeType): Promise<any> => {
+    const { endPoint, body, headers, method = 'GET' } = data;
+    setLoading(true);
+    setData(undefined);
+    setError(undefined);
 
-      const finalUrl = `${API}/api/${endPoint}`;
-      const finalHeaders: Record<string, string> = { ...defaultHeaders, ...headers };
-      const stringifyBody = body ? JSON.stringify(body) : undefined;
+    const finalUrl = `${API}/api/${endPoint}`;
+    const finalHeaders: Record<string, string> = { ...defaultHeaders, ...headers };
+    const stringifyBody = body ? JSON.stringify(body) : undefined;
 
-      if (accessToken) {
-        finalHeaders.authorization = accessToken;
-      }
+    const authorization = AccessCookie.getToken();
+    if (authorization) {
+      finalHeaders.authorization = authorization;
+    }
 
-      return new Promise((resolve, reject) => {
-        fetch(finalUrl, { method, headers: finalHeaders, body: stringifyBody })
-          .then((res) => res.json())
-          .then((d) => {
-            setData(d);
-            resolve(d);
-            setLoading(false);
-          })
-          .catch((err) => {
-            setError(err);
-            reject(err);
-            setLoading(false);
-          });
-      });
-    },
-    [accessToken],
-  );
+    return new Promise((resolve, reject) => {
+      fetch(finalUrl, { method, headers: finalHeaders, body: stringifyBody })
+        .then((res) => res.json())
+        .then((d) => {
+          setData(d);
+          resolve(d);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err);
+          reject(err);
+          setLoading(false);
+        });
+    });
+  }, []);
 
   return [loading, execute, data, error];
 }

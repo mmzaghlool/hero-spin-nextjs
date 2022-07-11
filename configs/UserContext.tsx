@@ -8,23 +8,13 @@ import User from '../types/User';
  * undefined: loading completed but no user logged in
  * object: user logged in
  */
-type t = { accessToken?: string; user?: User | null };
-type contextType = t & { setConfig: Dispatch<SetStateAction<t>> };
-export const UserContext = createContext<contextType>({ setConfig: (c) => {} });
+type contextType = { user?: User | null; setUser: Dispatch<SetStateAction<User | null | undefined>> };
+export const UserContext = createContext<contextType>({ user: null, setUser: (c) => {} });
 
 function UserProvider({ children }: { children: JSX.Element }) {
-  const [config, setConfig] = useState<t>({ user: null });
+  const [user, setUser] = useState<User | null | undefined>(null);
 
-  return (
-    <UserContext.Provider
-      value={{
-        user: config?.user,
-        accessToken: config?.accessToken,
-        setConfig,
-      }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 }
 
 export default UserProvider;

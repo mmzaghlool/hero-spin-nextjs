@@ -1,4 +1,3 @@
-import { setCookie } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from 'react';
@@ -7,7 +6,9 @@ import Button from '../components/forms/Button';
 import FormInput from '../components/forms/FormInput';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
+import AccessCookie from '../configs/AccessCookie';
 import TokenStorage from '../configs/TokenLocalStorage';
+import UIDCookie from '../configs/UIDCookie';
 import { UserContext } from '../configs/UserContext';
 import useFetch from '../hooks/useFetch';
 import styles from '../styles/registration.module.scss';
@@ -17,7 +18,7 @@ import validateRegistration from '../validations/registration';
 const message = 'Register new account to get better results, history, and feedback';
 
 function Registration() {
-  const { setConfig, user } = useContext(UserContext);
+  const { setUser, user } = useContext(UserContext);
   const router = useRouter();
 
   const [loading, execute] = useFetch();
@@ -56,10 +57,10 @@ function Registration() {
 
       // Login user
       const { accessToken, refreshToken, user } = res.data;
-      setConfig({ accessToken, user });
+      setUser(user);
       TokenStorage.setToken(refreshToken);
-      setCookie('ACCESS', accessToken, { maxAge: 60 * 12 });
-      setCookie('UID', user.uid, { maxAge: 60 * 12 });
+      AccessCookie.setToken(accessToken);
+      UIDCookie.setUid(user.uid);
       router.replace('/');
     });
   };

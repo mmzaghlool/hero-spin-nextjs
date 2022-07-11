@@ -4,22 +4,23 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Navbar } from 'react-bootstrap';
 import SVG from 'react-inlinesvg';
-import { removeCookies } from 'cookies-next';
 import DarkMode from './dark-mode/DarkMode';
 import styles from './Navbar.module.scss';
 import Button from '../forms/Button';
 import { UserContext } from '../../configs/UserContext';
 import TokenStorage from '../../configs/TokenLocalStorage';
+import UIDCookie from '../../configs/UIDCookie';
+import AccessCookie from '../../configs/AccessCookie';
 
 const NavBar: NextComponentType = () => {
-  const { user, setConfig } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
 
   const logout = () => {
+    setUser(undefined);
     TokenStorage.removeToken();
-    setConfig({});
-    removeCookies('ACCESS');
-    removeCookies('UID');
+    UIDCookie.removeUid();
+    AccessCookie.removeToken();
   };
 
   return (
@@ -44,7 +45,7 @@ const NavBar: NextComponentType = () => {
           <ul>
             <NavLink path="/">Home</NavLink>
             <NavLink path="/spin">Spin Now</NavLink>
-            <NavLink path="/history">History</NavLink>
+            {!!user && <NavLink path="/history">History</NavLink>}
           </ul>
 
           {user ? (

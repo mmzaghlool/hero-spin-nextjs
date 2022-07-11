@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import type { GetServerSideProps, NextPage } from 'next';
-import { getCookie } from 'cookies-next';
 import { API } from '../../backend/utils/constants';
 import Head from '../../components/Head';
 import NavBar from '../../components/nav-bar/Navbar';
@@ -11,9 +10,8 @@ import styles from '../../styles/history.module.scss';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
   const { imdbID } = query;
-  const authorization = getCookie('ACCESS', { req, res }) as string;
 
-  const movie = await fetch(`${API}/api/movie/${imdbID}`, { headers: authorization ? { authorization } : {} })
+  const movie = await fetch(`${API}/api/movie/${imdbID}`)
     .then((res) => res.json())
     .then((res) => res.movie);
 

@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { getCookie } from 'cookies-next';
 import { API } from '../backend/utils/constants';
 import { Movie } from '../backend/models/Movie';
 import Head from '../components/Head';
@@ -10,11 +9,13 @@ import { UserContext } from '../configs/UserContext';
 import Survey from '../components/spen/survey/Survey';
 import RenderMovie from '../components/movie/Movie';
 import styles from '../components/movie/movie.module.scss';
+import AccessCookie from '../configs/AccessCookie';
+import UIDCookie from '../configs/UIDCookie';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
   const hero = query.hero || null;
-  const uid = getCookie('UID', { req, res });
-  const authorization = getCookie('ACCESS', { req, res }) as string;
+  const uid = UIDCookie.getUid();
+  const authorization = AccessCookie.getToken();
 
   let link = `${API}/api/movies/spin?`;
   if (hero) {

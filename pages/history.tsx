@@ -1,17 +1,18 @@
 import { useContext } from 'react';
 import Link from 'next/link';
 import type { GetServerSideProps, NextPage } from 'next';
-import { getCookie } from 'cookies-next';
 import { API } from '../backend/utils/constants';
 import Head from '../components/Head';
 import NavBar from '../components/nav-bar/Navbar';
 import { UserContext } from '../configs/UserContext';
 import styles from '../styles/history.module.scss';
 import Button from '../components/forms/Button';
+import AccessCookie from '../configs/AccessCookie';
+import UIDCookie from '../configs/UIDCookie';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
-  const uid = getCookie('UID', { req, res });
-  const authorization = getCookie('ACCESS', { req, res }) as string;
+  const uid = UIDCookie.getUid();
+  const authorization = AccessCookie.getToken();
 
   if (!uid) {
     return { props: { movies: null } };
