@@ -1,34 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Hero Spin
 
-## Getting Started
+(React + NextJS + TS) Full-stack project to recommend a movie from marvel movies to watch using IMDB’s open movie API and local MySQL database for customizing the user experience and cashing the results.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+### Anonymous user
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+All/Any users can request spin request which gets random movie from marvel movies stored in OMDb API OR requests a random movie of a specific hero character.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Registered user
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Registered users has some unique features like storing history, and blocked movies.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+The history can be viewed later in the history tab in the navbar, and the blocked/unwanted movies are stored to not be suggested again.
 
-## Learn More
+Any movie that is marked as viewed or blocked will never be suggested again for this user.
 
-To learn more about Next.js, take a look at the following resources:
+### Dark Mode
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This app contains light/dark mode switch feature, which can be found in the top left corner of the page "most left of the navbar".
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The initial value is determined from the system preferences found in the first website open then the desired configuration is stored in the local storage.
 
-## Deploy on Vercel
+## Mechanism
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. User request a movie suggestion
+2. The backend searches for a result in the local MySQL DB, If any movie is found it suggests it to the user.
+3. If there are no movies found OR it's a registered user who has watched all available movies, the backend fetches/updates the results from the OMDb API.
+4. Firstly it just stores the primary movie data (id, title, and poster image).
+5. If the suggested movie does not contain all the details in the local DB it fetches it from OMDb and updates the local database and returns the result to the user.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Database ERD
+
+It contains 3 tables:
+
+1. `users`: basic user data (uid, name, email, passwordHash, createdAt)
+2. `movies`: movie details data (imdbID, Title, Poster, imdbRating, imdbVotes, BoxOffice, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Awards)
+3. `users_movies` M:N relation between `users` and `movies` tables (uid, imdbID, status, createdAt),
+   - status: -1: Not marvel movie, 0: I Don't like it, 1: Watched
+
+![Database ERD](https://hero-spin.mostafa-mahmoud.com/docs/erd.png)
+
+## Users data client side storage
+
+There is 3 methodologies used
+
+1. Context:
+   1. user: logged in user data "Used internally in the client side to render the user specific data"
+2. Local storage:
+   1. REFRESH_TOKEN: Used to request the user and refresh the access token on refresh
+   2. THEME: Selected theme (light - dark)
+3. Cookies:
+   1. uid: User id
+   2. ACCESS: Token that used in authorization by backend when requesting the user data "This token is stored encrypted using AES encryption"
+
+## Required env variables
+
+1. ACCESS_TOKEN_SECRET: Secret used as a key for encryption and decryption of the JWT access token
+2. REFRESH_TOKEN_SECRET: Secret used as a key for encryption and decryption of the JWT refresh token
+3. ENCRYPTION_KEY: Secret used as a key for encryption and decryption of the JWT access token on the client side to be stored in cookies securely
+4. DATABASE_NAME: Database schema name
+5. DATABASE_HOST: Database server host url
+6. DATABASE_USER: Database user id
+7. DATABASE_PASS: Database user password
+8. API_KEY: OMDb API Key, Generate one here `http://www.omdbapi.com/apikey.aspx`
+
+## Deployed on Vercel
+
+Deployed on vercel here `https://hero-spin.mostafa-mahmoud.com/`
+
+## Suggested future updates
+
+1. Filtering the movies that is marked as `Not a marvel movie` based on the watched/blocked ratio with specific number of feedback
