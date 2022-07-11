@@ -46,6 +46,22 @@ const History: NextPage<P> = ({ movies }) => {
     );
   }
 
+  if (movies.length === 0) {
+    return (
+      <div className="page-container">
+        <Head title="History" description="View your watch history" />
+        <NavBar />
+
+        <div className={styles.login}>
+          <h1>We did not found any watch history</h1>
+          <p>
+            <Link href={'/login'}>Spin now</Link> to get new marvel movie suggestion.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="page-container">
       <Head title="History" description="View your watch history" />
